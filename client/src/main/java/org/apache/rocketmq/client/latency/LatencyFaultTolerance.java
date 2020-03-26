@@ -45,6 +45,7 @@ public interface LatencyFaultTolerance<T> {
 
     /**
      * 获取一个对象
+     * 会选取一个相对较优秀的对象
      *
      * @return 对象
      */

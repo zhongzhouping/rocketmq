@@ -72,6 +72,7 @@ public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> 
         }
 
         if (!tmpList.isEmpty()) {
+            // TODO 为什么要先打乱顺序再排序
             Collections.shuffle(tmpList);
 
             Collections.sort(tmpList);
@@ -105,6 +106,11 @@ public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> 
             this.name = name;
         }
 
+        /**
+         * 比较对象
+         *
+         * 可用性 > 延迟 > 开始可用时间
+         */
         @Override
         public int compareTo(final FaultItem other) {
             if (this.isAvailable() != other.isAvailable()) {

@@ -17,6 +17,8 @@
 package org.apache.rocketmq.example.quickstart;
 
 import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.hook.CheckForbiddenContext;
+import org.apache.rocketmq.client.hook.CheckForbiddenHook;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
@@ -50,6 +52,18 @@ public class Producer {
          */
         producer.setNamesrvAddr("127.0.0.1:9876");
         producer.start();
+
+        producer.getDefaultMQProducerImpl().registerCheckForbiddenHook(new CheckForbiddenHook() {
+            @Override
+            public String hookName() {
+                return "gouzi";
+            }
+
+            @Override
+            public void checkForbidden(CheckForbiddenContext context) throws MQClientException {
+                System.out.println("发送钱钩子：" + context);
+            }
+        });
 
         for (int i = 0; i < 1000; i++) {
             try {
